@@ -1,5 +1,12 @@
 Proceso sistemaDeVentaDePasajesAéreos
 	definir opcionMenu Como Entero
+	definir rutasAereas como cadena
+	Dimension rutasAereas[4]
+	definir capacidadRutasAereas Como Entero
+	Dimension capacidadRutasAereas[4]
+	
+	
+	inicializoArreglos(rutasAereas Por Referencia, capacidadRutasAereas Por Referencia)
 	
 	Escribir "**********BIENVENIDO**********"
 	Escribir ""
@@ -12,9 +19,20 @@ Proceso sistemaDeVentaDePasajesAéreos
 	Escribir "Seleccione una opcion: "
 	Leer opcionMenu
 	
-	Si opcionMenu == 1 Entonces
-		
-	FinSi
+	Segun opcionMenu
+		caso 1:
+			ventaPasaje()
+		caso 2:
+			buscarPasaje()
+		caso 3:
+			buscarPasajero()
+		caso 4:
+			mostrarListaPasajeros()
+		caso 5: 
+			listados()
+		otro caso:
+			Escribir "Opción inválida"
+	FinSegun
 
 FinProceso
 
@@ -33,8 +51,24 @@ SubProceso buscarPasajero (Por Referencia)
 FinSubProceso
 
 
-SubProceso mostrarListaPasajeros
+SubProceso mostrarListaPasajeros (Por Referencia)
 	
 FinSubProceso
 
 
+SubProceso listados (Por Referencia)
+	
+FinSubProceso
+
+
+SubProceso inicializoArreglos(rutasAereas Por Referencia, capacidadRutasAereas Por Referencia)
+	rutasAereas[0] <- "Buenos Aires - Bariloche"
+	rutasAereas[1] <- "Buenos Aires - Salta"
+	rutasAereas[2] <- "Rosario - Buenos Aires"
+	rutasAereas[3] <- "Mar Del Plata - Mendoza"
+	capacidadRutasAereas[0] <- 120
+	capacidadRutasAereas[1] <- 120
+	capacidadRutasAereas[2] <- 80
+	capacidadRutasAereas[3] <- 80
+FinSubProceso
+	
