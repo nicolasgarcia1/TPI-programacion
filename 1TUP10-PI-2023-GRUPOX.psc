@@ -87,4 +87,7 @@ SubProceso OrdenSeleccion(arreglo, dim)
 		arreglo[pos_menor]<-aux
 	FinPara
 FinSubProceso
+
+
+// hola
 	
