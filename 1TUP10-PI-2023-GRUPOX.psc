@@ -6,7 +6,7 @@ Proceso sistemaDeVentaDePasajesAéreos
 	Dimension capacidadRutasAereas[4]
 	
 	
-	inicializoArreglos(rutasAereas Por Referencia, capacidadRutasAereas Por Referencia)
+	inicializoArreglos(rutasAereas, capacidadRutasAereas)
 	
 	Escribir "**********BIENVENIDO**********"
 	Escribir ""
