@@ -1,4 +1,4 @@
-Proceso sistemaDeVentaDePasajesAéreos
+Proceso SistemaDeVentaDePasajesAéreos
 	definir opcionMenu Como Entero
 	definir rutasAereas como cadena
 	Dimension rutasAereas[4]
@@ -70,5 +70,21 @@ SubProceso inicializoArreglos(rutasAereas Por Referencia, capacidadRutasAereas P
 	capacidadRutasAereas[1] <- 120
 	capacidadRutasAereas[2] <- 80
 	capacidadRutasAereas[3] <- 80
+FinSubProceso
+
+SubProceso OrdenSeleccion(arreglo, dim)
+	Definir i, j, pos_menor, aux Como Entero
+	para i <- 0 hasta dim - 2 Hacer
+		pos_menor <- i
+		para j<- i + 1 hasta dim - 1 Hacer
+			Si arreglo[j]<arreglo[pos_menor] Entonces
+				pos_menor <- j
+			FinSi
+			cant_comparaciones <- cant_comparaciones + 1
+		FinPara
+		aux <- arreglo[i]
+		arreglo[i] <- arreglo[pos_menor]
+		arreglo[pos_menor]<-aux
+	FinPara
 FinSubProceso
 	
