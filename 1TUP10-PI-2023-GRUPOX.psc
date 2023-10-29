@@ -1,17 +1,15 @@
 Proceso SistemaDeVentaDePasajesAereos
 	Definir tam, contador1, contador2, contador3, contador4 Como Entero
-	tam <- 400
 	Definir opcionMenu, dni, telefono, idCliente, asiento,rutaElegida, asiento Como Entero
 	Definir rutasAereas , nombreApellido como cadena
-	Dimension rutasAereas[4]
 	Definir capacidadRutasAereas, equipajeBodega Como Entero
-	Dimension capacidadRutasAereas[4]
+	Dimension capacidadRutasAereas[4], asiento[4,tam], rutasAereas[4]
 	Dimension nombreApellido[tam], dni[tam], telefono[tam], idCliente[tam], asiento[tam], rutaElegida[tam], equipajeBodega[tam]
-	Dimension asiento[4,tam]
 	contador1 <- 0
 	contador2 <- 0
 	contador3 <- 0
 	contador4 <- 0
+	tam <- 400
 	
 	inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam)
 	
@@ -28,7 +26,7 @@ Proceso SistemaDeVentaDePasajesAereos
 	
 	Segun opcionMenu
 		caso 1:
-			ventaPasaje(rutaelegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contador1, contador2, contador3, contador4)
+			ventaPasaje(rutaElegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contador1, contador2, contador3, contador4)
 		caso 2:
 			buscarPasaje()
 		caso 3:
@@ -139,6 +137,7 @@ FinSubProceso
 
 
 SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam Por Referencia)
+	definir i Como Entero
 	rutasAereas[0] <- "Buenos Aires - Bariloche"
 	rutasAereas[1] <- "Buenos Aires - Salta"
 	rutasAereas[2] <- "Rosario - Buenos Aires"
@@ -147,5 +146,9 @@ SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido,
 	capacidadRutasAereas[1] <- 120
 	capacidadRutasAereas[2] <- 80
 	capacidadRutasAereas[3] <- 80
+	
+	Para i <- 0 Hasta tam Hacer
+		nombreApellido <- ""
+	FinPara
 FinSubProceso
 
