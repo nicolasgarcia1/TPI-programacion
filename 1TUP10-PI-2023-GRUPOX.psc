@@ -1,15 +1,16 @@
 Proceso SistemaDeVentaDePasajesAereos
 	Definir tam, contador1, contador2, contador3, contador4 Como Entero
-	Definir opcionMenu, dni, telefono, idCliente, asiento,rutaElegida, asiento Como Entero
+	tam <- 400
+	Definir dni, telefono, idCliente, asiento,rutaElegida Como Entero
 	Definir rutasAereas , nombreApellido como cadena
+	Definir opcionMenu Como Caracter
 	Definir capacidadRutasAereas, equipajeBodega Como Entero
 	Dimension capacidadRutasAereas[4], asiento[4,tam], rutasAereas[4]
-	Dimension nombreApellido[tam], dni[tam], telefono[tam], idCliente[tam], asiento[tam], rutaElegida[tam], equipajeBodega[tam]
+	Dimension nombreApellido[tam], dni[tam], telefono[tam], idCliente[tam], rutaElegida[tam], equipajeBodega[tam]
 	contador1 <- 0
 	contador2 <- 0
 	contador3 <- 0
 	contador4 <- 0
-	tam <- 400
 	
 	inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam)
 	
@@ -25,16 +26,16 @@ Proceso SistemaDeVentaDePasajesAereos
 	Leer opcionMenu
 	
 	Segun opcionMenu
-		caso 1:
+		caso '1':
 			ventaPasaje(rutaElegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contador1, contador2, contador3, contador4)
-		caso 2:
-			buscarPasaje()
-		caso 3:
-			buscarPasajero()
-		caso 4:
-			mostrarListaPasajeros()
-		caso 5: 
-			listados()
+		caso '2':
+			//buscarPasaje()
+		caso '3':
+			//buscarPasajero()
+		caso '4':
+			//mostrarListaPasajeros()
+		caso '5': 
+			//listados()
 		De Otro Modo:
 			Escribir "Opción inválida"
 	FinSegun
@@ -42,49 +43,48 @@ Proceso SistemaDeVentaDePasajesAereos
 FinProceso
 
 SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contador1, contador2, contador3, contador4 Por Referencia)
-	Definir i Como Entero
-	Mientras nombreApellido <> "" y i < tam Hacer
-		i <- i+1
+	Definir pasajero Como Entero
+	Mientras nombreApellido[pasajero] <> "" y pasajero < tam Hacer
+		pasajero <- pasajero+1
 	FinMientras
-	Definir ruta, equipaje como cadena
 	Definir costoTotal Como Real
 
-	Si i <= tam Entonces
+	Si pasajero <= tam Entonces
 		Definir opcionEquipaje Como Entero
 		Mostrar "Elija una opcion"
 		Mostrar "1. Buenos Aires - Bariloche"
 		Mostrar "2. Bueno Aires - Salta"
 		Mostrar "3. Rosario - Buenos Aires"
 		Mostrar "4. Mar Del Plata - Mendoza"
-		leer rutaElegida[i]
-		rutaElegida[i] <- rutaElegida[i] - 1
+		leer rutaElegida[pasajero]
+		rutaElegida[pasajero] <- rutaElegida[pasajero] - 1
 		
-		Si rutaElegida[i] == 0 y contador1 < 120 Entonces
+		Si rutaElegida[pasajero] == 0 y contador1 < 120 Entonces
 			contador1 <- contador1 + 1
-			asiento[0,i] <- contador1
+			asiento[0,pasajero] <- contador1
 		FinSi
-		Si rutaElegida[i] == 1 y contador2 < 120 Entonces
+		Si rutaElegida[pasajero] == 1 y contador2 < 120 Entonces
 			contador2 <- contador2 + 1
-			asiento[1,i] <- contador2
+			asiento[1,pasaje] <- contador2
 		FinSi
-		Si rutaElegida[i] == 2 y contador3 < 80 Entonces
+		Si rutaElegida[pasajero] == 2 y contador3 < 80 Entonces
 			contador3 <- contador3 + 1
-			asiento[2,i] <- contador3
+			asiento[2,pasajero] <- contador3
 		FinSi
-		Si rutaElegida[i] == 3 y contador4 < 80 Entonces
+		Si rutaElegida[pasajero] == 3 y contador4 < 80 Entonces
 			contador4 <- contador4 + 1
-			asiento[3,i] <- contador4
+			asiento[3,pasajero] <- contador4
 		FinSi
 		
 		
 		Mostrar "Ingrese nombre y apellido: "
-		leer nombreApellido[i]
+		leer nombreApellido[pasajero]
 		Mostrar "Ingrese DNI"
-		leer dni[i]
+		leer dni[pasajero]
 		Mostrar "Ingrese su telefono: "
-		leer telefono[i]
+		leer telefono[pasajero]
 		Mostrar "Ingrese su numero de cliente: "
-		leer idCliente[i]
+		leer idCliente[pasajero]
 		Mostrar "¿Su equipaje va en la bodega? 1-SI 2-NO: "
 		leer opcionEquipaje
 		Mientras opcionEquipaje < 1 o opcionEquipaje > 2 Hacer
@@ -93,66 +93,60 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		FinMientras
 		Segun opcionEquipaje
 			caso 1:
-				equipajeBodega[i] <- 1
+				equipajeBodega[pasajero] <- 1
 			caso 2:
-				equipajeBodega[i] <- 0
+				equipajeBodega[pasajero] <- 0
 		FinSegun
 	FinSi
-	
-	Si rutaElegida[i] == 0
-		ruta <- "Buenos Aires - Bariloche"
-	FinSi
-	Si rutaElegida[i] == 1
-		ruta <- "Buenos Aires - Salta"
-	FinSi
-	Si rutaElegida[i] == 2
-		ruta <- "Rosario - Buenos Aires"
-	FinSi
-	Si rutaElegida[i] == 3
-		ruta <- "Mar del Plata - Mendoza"
-	FinSi
-	Si equipajeBodega[i] == 1
-		equipaje <- "Si"
-	FinSi
-	Si equipajeBodega[i] == 0
-		equipaje <- "No"
-	FinSi
-	
-	costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega , costoTotal)
-	
-	
-	Mostrar "Ruta : ",ruta
-	Mostrar "Nombre y Apellido : ",nombreApellido[i]
-	Mostrar "DNI : ",dni[i]
-	Mostrar "Telefono : ",telefono[i]
-	Mostrar "Id Cliente: ",idCliente[i]
-	Mostrar "Equipaje en bodega ",equipaje
-	Mostrar "Asiento ",asiento[i]
-	Mostrar "Costo pasaje $ ",costoTotal
-	
-	
-	i <- i + 1
-FinSubProceso
 
-
-SubProceso buscarPasaje (Por Referencia)
+	costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero)
+	
+	
+	Segun rutaElegida[pasajero]
+		caso 0:
+			mostrar "Ruta: Buenos Aires - Salta"
+		caso 1:
+			mostrar "Ruta: Buenos Aires - Salta"
+		caso 2: 
+			mostrar "Ruta: Rosario - Buenos Aires"
+		caso 3:
+			mostrar "Ruta: Mar del Plata - Mendoza"
+	FinSegun
+	Mostrar "Nombre y Apellido: ",nombreApellido[pasajero]
+	Mostrar "DNI: ",dni[pasajero]
+	Mostrar "Telefono: ",telefono[pasajero]
+	Mostrar "Id Cliente: ",idCliente[pasajero]
+	Segun equipajeBodega[pasajero]
+		Caso 0:
+			Mostrar "Equipaje en bodega: SI"
+		caso 1:
+			Mostrar "Equipaje en bodega: NO"
+	FinSegun
+	Mostrar "Asiento: ",asiento[rutaElegida[pasajero], pasajero]
+	Mostrar "Costo pasaje: $",costoTotal
+	
 	
 FinSubProceso
 
 
-SubProceso buscarPasajero (Por Referencia)
+//SubProceso buscarPasaje (Por Referencia)
 	
-FinSubProceso
+//FinSubProceso
 
 
-SubProceso mostrarListaPasajeros (Por Referencia)
+//SubProceso buscarPasajero (Por Referencia)
 	
-FinSubProceso
+//FinSubProceso
 
 
-SubProceso listados (Por Referencia)
+//SubProceso mostrarListaPasajeros (Por Referencia)
 	
-FinSubProceso
+//FinSubProceso
+
+
+//SubProceso listados (Por Referencia)
+	
+//FinSubProceso
 
 
 SubProceso OrdenSeleccion(arreglo, dim)
@@ -172,6 +166,61 @@ SubProceso OrdenSeleccion(arreglo, dim)
 FinSubProceso
 
 
+SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega, costoTotal, pasajero Por Referencia)
+	Si rutaElegida[pasajero] == 0
+		Si asiento[0,pasajero] <= 20
+			costoTotal <- 150000
+		FinSi
+		Si asiento[0,pasajero] > 20 y asiento[pasajero] <= 60
+			costoTotal <- 150000 * 1.10
+		FinSi
+		Si asiento[0,pasajero] > 60
+			costoTotal <- 180000
+		FinSi
+	FinSi
+	
+	Si rutaElegida[pasajero] == 1
+		Si asiento[1,pasajero] <= 20
+			costoTotal <- 120000
+		FinSi
+		Si asiento[1,pasajero] > 20 y asiento[pasajero] <= 60
+			costoTotal <- 120000 * 1.10
+		FinSi
+		Si asiento[1,pasajero] > 60
+			costoTotal <- 150000
+		FinSi
+	FinSi
+	
+	Si rutaElegida[pasajero] == 2
+		Si asiento[2,pasajero] <= 10
+			costoTotal <- 70000
+		FinSi
+		Si asiento[2,pasajero] > 10 y asiento[pasajero] <= 40
+			costoTotal <- 70000 * 1.15
+		FinSi
+		Si asiento[2,pasajero] > 40
+			costoTotal <- 95000
+		FinSi
+	FinSi
+	
+	Si rutaElegida[pasajero] == 3
+		Si asiento[3,pasajero] <= 10
+			costoTotal <- 95000
+		FinSi
+		Si asiento[3,pasajero] > 10 y asiento[pasajero] <= 40
+			costoTotal <- 95000 * 1.15
+		FinSi
+		Si asiento[3,pasajero] > 40
+			costoTotal <- 125000
+		FinSi
+	FinSi
+	
+	Si equipajeBodega[pasajero] == 1
+		costoTotal <- costoTotal * 1.05
+	FinSi
+FinSubProceso
+
+
 SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam Por Referencia)
 	definir i Como Entero
 	rutasAereas[0] <- "Buenos Aires - Bariloche"
@@ -183,71 +232,9 @@ SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido,
 	capacidadRutasAereas[2] <- 80
 	capacidadRutasAereas[3] <- 80
 	
-	Para i <- 0 Hasta tam Hacer
-		nombreApellido <- ""
+	Para i <- 0 Hasta tam-1 Hacer
+		nombreApellido[i] <- ""
 	FinPara
 FinSubProceso
 
-SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega Por Valor, costoTotal Por Referencia)
-	Si rutaElegida[i] == 0
-		Si asiento[i] <= 20
-			costoTotal <- 150000
-		FinSi
-		Si asiento[i] > 20 y asiento[i] <= 60
-			costoTotal <- 150000 * 1.10
-		FinSi
-		Si asiento[i] > 60
-			costoTotal <- 180000
-		FinSi
-		Si equipajeBodega[i] == 1
-			costoTotal <- costoTotal * 1.05
-		FinSi
-	FinSi
-	
-	Si rutaElegida[i] == 1
-		Si asiento[i] <= 20
-			costoTotal <- 120000
-		FinSi
-		Si asiento[i] > 20 y asiento[i] <= 60
-			costoTotal <- 120000 * 1.10
-		FinSi
-		Si asiento[i] > 60
-			costoTotal <- 150000
-		FinSi
-		Si equipajeBodega[i] == 1
-			costoTotal <- costoTotal * 1.05
-		FinSi
-	FinSi
-	
-	Si rutaElegida[i] == 2
-		Si asiento[i] <= 10
-			costoTotal <- 70000
-		FinSi
-		Si asiento[i] > 10 y asiento[i] <= 40
-			costoTotal <- 70000 * 1.15
-		FinSi
-		Si asiento[i] > 40
-			costoTotal <- 95000
-		FinSi
-		Si equipajeBodega[i] == 1
-			costoTotal <- costoTotal * 1.05
-		FinSi
-	FinSi
-	
-	Si rutaElegida[i] == 3
-		Si asiento[i] <= 10
-			costoTotal <- 95000
-		FinSi
-		Si asiento[i] > 10 y asiento[i] <= 40
-			costoTotal <- 95000 * 1.15
-		FinSi
-		Si asiento[i] > 40
-			costoTotal <- 125000
-		FinSi
-		Si equipajeBodega[i] == 1
-			costoTotal <- costoTotal * 1.05
-		FinSi
-	FinSi
-	
-FinSubProceso
 
