@@ -46,7 +46,9 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 	Mientras nombreApellido <> "" y i < tam Hacer
 		i <- i+1
 	FinMientras
-	
+	Definir ruta, equipaje como cadena
+	Definir costoTotal Como Real
+
 	Si i <= tam Entonces
 		Definir opcionEquipaje Como Entero
 		Mostrar "Elija una opcion"
@@ -96,6 +98,40 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 				equipajeBodega[i] <- 0
 		FinSegun
 	FinSi
+	
+	Si rutaElegida[i] == 0
+		ruta <- "Buenos Aires - Bariloche"
+	FinSi
+	Si rutaElegida[i] == 1
+		ruta <- "Buenos Aires - Salta"
+	FinSi
+	Si rutaElegida[i] == 2
+		ruta <- "Rosario - Buenos Aires"
+	FinSi
+	Si rutaElegida[i] == 3
+		ruta <- "Mar del Plata - Mendoza"
+	FinSi
+	Si equipajeBodega[i] == 1
+		equipaje <- "Si"
+	FinSi
+	Si equipajeBodega[i] == 0
+		equipaje <- "No"
+	FinSi
+	
+	costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega , costoTotal)
+	
+	
+	Mostrar "Ruta : ",ruta
+	Mostrar "Nombre y Apellido : ",nombreApellido[i]
+	Mostrar "DNI : ",dni[i]
+	Mostrar "Telefono : ",telefono[i]
+	Mostrar "Id Cliente: ",idCliente[i]
+	Mostrar "Equipaje en bodega ",equipaje
+	Mostrar "Asiento ",asiento[i]
+	Mostrar "Costo pasaje $ ",costoTotal
+	
+	
+	i <- i + 1
 FinSubProceso
 
 
@@ -150,5 +186,68 @@ SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido,
 	Para i <- 0 Hasta tam Hacer
 		nombreApellido <- ""
 	FinPara
+FinSubProceso
+
+SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega Por Valor, costoTotal Por Referencia)
+	Si rutaElegida[i] == 0
+		Si asiento[i] <= 20
+			costoTotal <- 150000
+		FinSi
+		Si asiento[i] > 20 y asiento[i] <= 60
+			costoTotal <- 150000 * 1.10
+		FinSi
+		Si asiento[i] > 60
+			costoTotal <- 180000
+		FinSi
+		Si equipajeBodega[i] == 1
+			costoTotal <- costoTotal * 1.05
+		FinSi
+	FinSi
+	
+	Si rutaElegida[i] == 1
+		Si asiento[i] <= 20
+			costoTotal <- 120000
+		FinSi
+		Si asiento[i] > 20 y asiento[i] <= 60
+			costoTotal <- 120000 * 1.10
+		FinSi
+		Si asiento[i] > 60
+			costoTotal <- 150000
+		FinSi
+		Si equipajeBodega[i] == 1
+			costoTotal <- costoTotal * 1.05
+		FinSi
+	FinSi
+	
+	Si rutaElegida[i] == 2
+		Si asiento[i] <= 10
+			costoTotal <- 70000
+		FinSi
+		Si asiento[i] > 10 y asiento[i] <= 40
+			costoTotal <- 70000 * 1.15
+		FinSi
+		Si asiento[i] > 40
+			costoTotal <- 95000
+		FinSi
+		Si equipajeBodega[i] == 1
+			costoTotal <- costoTotal * 1.05
+		FinSi
+	FinSi
+	
+	Si rutaElegida[i] == 3
+		Si asiento[i] <= 10
+			costoTotal <- 95000
+		FinSi
+		Si asiento[i] > 10 y asiento[i] <= 40
+			costoTotal <- 95000 * 1.15
+		FinSi
+		Si asiento[i] > 40
+			costoTotal <- 125000
+		FinSi
+		Si equipajeBodega[i] == 1
+			costoTotal <- costoTotal * 1.05
+		FinSi
+	FinSi
+	
 FinSubProceso
 
