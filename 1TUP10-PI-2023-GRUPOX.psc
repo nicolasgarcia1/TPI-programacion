@@ -13,33 +13,37 @@ Proceso SistemaDeVentaDePasajesAereos
 	contador4 <- 0
 	
 	inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam)
+	mientras opcionMenu <> "salir" Hacer
+		Escribir "***BIENVENIDO***"
+		Escribir ""
+		Escribir "Gracias por viajar con aerolineas messi"
+		Escribir "1. Venta pasaje"
+		Escribir "2. Buscar pasaje vendido"
+		Escribir "3. Buscar pasajero"
+		Escribir "4. Ordenar y mostrar lista pasajeros"
+		Escribir "5. Listado/s"
+		Escribir "Seleccione una opcion: "
+		Leer opcionMenu
+		
+		Segun opcionMenu
+			caso '1':
+				ventaPasaje(rutaElegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contador1, contador2, contador3, contador4)
+			caso '2':
+				//buscarPasaje()
+			caso '3':
+				//buscarPasajero()
+			caso '4':
+				//mostrarListaPasajeros()
+			caso '5': 
+				//listados()
+			caso 'salir':
+				
+			De Otro Modo:
+				Escribir "Opción inválida"
+		FinSegun
+	FinMientras
 	
-	Escribir "***BIENVENIDO***"
-	Escribir ""
-	Escribir "Gracias por viajar con aerolineas messi"
-	Escribir "1. Venta pasaje"
-	Escribir "2. Buscar pasaje vendido"
-	Escribir "3. Buscar pasajero"
-	Escribir "4. Ordenar y mostrar lista pasajeros"
-	Escribir "5. Listado/s"
-	Escribir "Seleccione una opcion: "
-	Leer opcionMenu
-	
-	Segun opcionMenu
-		caso '1':
-			ventaPasaje(rutaElegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contador1, contador2, contador3, contador4)
-		caso '2':
-			//buscarPasaje()
-		caso '3':
-			//buscarPasajero()
-		caso '4':
-			//mostrarListaPasajeros()
-		caso '5': 
-			//listados()
-		De Otro Modo:
-			Escribir "Opción inválida"
-	FinSegun
-	
+	Escribir "Gracias por elegirnos. "
 FinProceso
 
 SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contador1, contador2, contador3, contador4 Por Referencia)
@@ -100,7 +104,6 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 	FinSi
 
 	costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero)
-	
 	
 	Segun rutaElegida[pasajero]
 		caso 0:
