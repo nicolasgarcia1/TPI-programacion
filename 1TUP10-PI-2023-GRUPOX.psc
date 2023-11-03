@@ -1,18 +1,15 @@
 Proceso SistemaDeVentaDePasajesAereos
-	Definir tam, contador1, contador2, contador3, contador4 Como Entero
+	Definir tam Como Entero
 	tam <- 400
 	Definir dni, telefono, idCliente, asiento,rutaElegida Como Entero
 	Definir rutasAereas , nombreApellido como cadena
 	Definir opcionMenu Como Caracter
-	Definir capacidadRutasAereas, equipajeBodega Como Entero
-	Dimension capacidadRutasAereas[4], asiento[4,tam], rutasAereas[4]
+	Definir capacidadRutasAereas, equipajeBodega, contadorAsientos  Como Entero
+	Dimension capacidadRutasAereas[4], asiento[4,tam], rutasAereas[4], contadorAsientos[4]
 	Dimension nombreApellido[tam], dni[tam], telefono[tam], idCliente[tam], rutaElegida[tam], equipajeBodega[tam]
-	contador1 <- 0
-	contador2 <- 0
-	contador3 <- 0
-	contador4 <- 0
 	
-	inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam)
+	inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam, contadorAsientos)
+	
 	mientras opcionMenu <> "salir" Hacer
 		Escribir "***BIENVENIDO***"
 		Escribir ""
@@ -22,12 +19,15 @@ Proceso SistemaDeVentaDePasajesAereos
 		Escribir "3. Buscar pasajero"
 		Escribir "4. Ordenar y mostrar lista pasajeros"
 		Escribir "5. Listado/s"
+		Escribir "Para terminar la ejecucion, ingrese *salir*"
+		Escribir ""
 		Escribir "Seleccione una opcion: "
 		Leer opcionMenu
+		opcionMenu <- Minusculas(opcionMenu)
 		
 		Segun opcionMenu
 			caso '1':
-				ventaPasaje(rutaElegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contador1, contador2, contador3, contador4)
+				ventaPasaje(rutaElegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos)
 			caso '2':
 				//buscarPasaje()
 			caso '3':
@@ -46,7 +46,7 @@ Proceso SistemaDeVentaDePasajesAereos
 	Escribir "Gracias por elegirnos. "
 FinProceso
 
-SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contador1, contador2, contador3, contador4 Por Referencia)
+SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos Por Referencia)
 	Definir pasajero Como Entero
 	Mientras nombreApellido[pasajero] <> "" y pasajero < tam Hacer
 		pasajero <- pasajero+1
@@ -63,21 +63,21 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		leer rutaElegida[pasajero]
 		rutaElegida[pasajero] <- rutaElegida[pasajero] - 1
 		
-		Si rutaElegida[pasajero] == 0 y contador1 < 120 Entonces
-			contador1 <- contador1 + 1
-			asiento[0,pasajero] <- contador1
+		Si rutaElegida[pasajero] == 0 y contadorAsientos[0] > 0 Entonces
+			asiento[0,pasajero] <- contadorAsientos[0]
+			contadorAsientos[0] <- contadorAsientos[0] - 1
 		FinSi
-		Si rutaElegida[pasajero] == 1 y contador2 < 120 Entonces
-			contador2 <- contador2 + 1
-			asiento[1,pasaje] <- contador2
+		Si rutaElegida[pasajero] == 1 y contadorAsientos[1] > 0 Entonces
+			asiento[1,pasajero] <- contadorAsientos[1]
+			contadorAsientos[0] <- contadorAsientos[1] - 1
 		FinSi
-		Si rutaElegida[pasajero] == 2 y contador3 < 80 Entonces
-			contador3 <- contador3 + 1
-			asiento[2,pasajero] <- contador3
+		Si rutaElegida[pasajero] == 2 y contadorAsientos[2] > 0 Entonces
+			asiento[2,pasajero] <- contadorAsientos[2]
+			contadorAsientos[2] <- contadorAsientos[2] - 1
 		FinSi
-		Si rutaElegida[pasajero] == 3 y contador4 < 80 Entonces
-			contador4 <- contador4 + 1
-			asiento[3,pasajero] <- contador4
+		Si rutaElegida[pasajero] == 3 y contadorAsientos > 0 Entonces
+			asiento[3,pasajero] <- contadorAsientos[3]
+			contadorAsientos[3] <- contadorAsientos[3] -1
 		FinSi
 		
 		
@@ -224,7 +224,7 @@ SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega, cost
 FinSubProceso
 
 
-SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam Por Referencia)
+SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam, contadorAsientos Por Referencia)
 	definir i Como Entero
 	rutasAereas[0] <- "Buenos Aires - Bariloche"
 	rutasAereas[1] <- "Buenos Aires - Salta"
@@ -238,6 +238,11 @@ SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido,
 	Para i <- 0 Hasta tam-1 Hacer
 		nombreApellido[i] <- ""
 	FinPara
+	
+	contadorAsientos[0] <- 120
+	contadorAsientos[1] <- 120
+	contadorAsientos[2] <- 80
+	contadorAsientos[3] <- 80
 FinSubProceso
 
 
