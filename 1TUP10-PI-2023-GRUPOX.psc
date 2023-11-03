@@ -51,6 +51,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 	Mientras nombreApellido[pasajero] <> "" y pasajero < tam Hacer
 		pasajero <- pasajero+1
 	FinMientras
+	
 	Definir costoTotal Como Real
 
 	Si pasajero <= tam Entonces
@@ -63,21 +64,21 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		leer rutaElegida[pasajero]
 		rutaElegida[pasajero] <- rutaElegida[pasajero] - 1
 		
-		Si rutaElegida[pasajero] == 0 y contadorAsientos[0] > 0 Entonces
+		Si rutaElegida[pasajero] == 0 y contadorAsientos[0] < 120 Entonces
+			contadorAsientos[0] <- contadorAsientos[0] + 1
 			asiento[0,pasajero] <- contadorAsientos[0]
-			contadorAsientos[0] <- contadorAsientos[0] - 1
 		FinSi
-		Si rutaElegida[pasajero] == 1 y contadorAsientos[1] > 0 Entonces
+		Si rutaElegida[pasajero] == 1 y contadorAsientos[1] < 120 Entonces
+			contadorAsientos[0] <- contadorAsientos[1] + 1
 			asiento[1,pasajero] <- contadorAsientos[1]
-			contadorAsientos[0] <- contadorAsientos[1] - 1
 		FinSi
-		Si rutaElegida[pasajero] == 2 y contadorAsientos[2] > 0 Entonces
+		Si rutaElegida[pasajero] == 2 y contadorAsientos[2] < 80 Entonces
+			contadorAsientos[2] <- contadorAsientos[2] + 1
 			asiento[2,pasajero] <- contadorAsientos[2]
-			contadorAsientos[2] <- contadorAsientos[2] - 1
 		FinSi
-		Si rutaElegida[pasajero] == 3 y contadorAsientos > 0 Entonces
+		Si rutaElegida[pasajero] == 3 y contadorAsientos < 80 Entonces
+			contadorAsientos[3] <- contadorAsientos[3] + 1
 			asiento[3,pasajero] <- contadorAsientos[3]
-			contadorAsientos[3] <- contadorAsientos[3] -1
 		FinSi
 		
 		
@@ -239,10 +240,10 @@ SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido,
 		nombreApellido[i] <- ""
 	FinPara
 	
-	contadorAsientos[0] <- 120
-	contadorAsientos[1] <- 120
-	contadorAsientos[2] <- 80
-	contadorAsientos[3] <- 80
+	contadorAsientos[0] <- 0
+	contadorAsientos[1] <- 0
+	contadorAsientos[2] <- 0
+	contadorAsientos[3] <- 0
 FinSubProceso
 
 
