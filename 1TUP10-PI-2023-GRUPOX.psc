@@ -1,14 +1,20 @@
 Proceso SistemaDeVentaDePasajesAereos
+	
+	// cantidad total de asientos disponibles sumando todos los vuelos
 	Definir tam Como Entero
-	tam <- 400
+	tam <- 400 
+	
+	// definicion de arreglos
 	Definir dni, telefono, idCliente, asiento,rutaElegida Como Entero
 	Definir rutasAereas , nombreApellido como cadena
-	Definir opcionMenu Como Caracter
-	Definir capacidadRutasAereas, equipajeBodega, contadorAsientos  Como Entero
-	Dimension capacidadRutasAereas[4], asiento[4,tam], rutasAereas[4], contadorAsientos[4]
+	Definir equipajeBodega, contadorAsientos  Como Entero
+	Dimension asiento[4,tam], rutasAereas[4], contadorAsientos[4]
 	Dimension nombreApellido[tam], dni[tam], telefono[tam], idCliente[tam], rutaElegida[tam], equipajeBodega[tam]
 	
-	inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam, contadorAsientos)
+	Definir opcionMenu Como Caracter 
+	
+	// inicializacion de arreglos fuera de la funcion principal
+	inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam, contadorAsientos) 
 	
 	mientras opcionMenu <> "salir" Hacer
 		Escribir "***BIENVENIDO***"
@@ -23,7 +29,7 @@ Proceso SistemaDeVentaDePasajesAereos
 		Escribir ""
 		Escribir "Seleccione una opcion: "
 		Leer opcionMenu
-		opcionMenu <- Minusculas(opcionMenu)
+		opcionMenu <- Minusculas(opcionMenu) // validacion de ingreso de mayusculas y minusculas
 		
 		Segun opcionMenu
 			caso '1':
@@ -47,17 +53,20 @@ Proceso SistemaDeVentaDePasajesAereos
 FinProceso
 
 SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos Por Referencia)
-	Definir avionLleno Como Logico
+	Definir avionLleno Como Logico // booleano para chequear si un vuelo está lleno
 	avionLleno <- Falso
-	Definir pasajero Como Entero
+	
+	Definir pasajero Como Entero // subindice del pasajero que inicia la venta de un pasaje
 	Definir systemPause Como Caracter
-	Mientras nombreApellido[pasajero] <> "" y pasajero < tam-1 Hacer
+	
+	// busqueda del indice a usar, se le asignará el primer lugar vacio que haya del 0 hasta tam
+	Mientras nombreApellido[pasajero] <> "" y pasajero < tam-1 Hacer 
 		pasajero <- pasajero+1
 	FinMientras
 	
 	Definir costoTotal Como Real
 
-	Si pasajero < tam-1 Entonces
+	Si pasajero < tam-1 Entonces  // chequea que no esten todos los vuelos llenos
 		Definir opcionEquipaje Como Entero
 		Mostrar "Elija una opcion"
 		Mostrar "1. Buenos Aires - Bariloche"
@@ -66,12 +75,12 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		Mostrar "4. Mar Del Plata - Mendoza"
 		leer rutaElegida[pasajero]
 		validarRutaElegida(rutaElegida, pasajero)
-		rutaElegida[pasajero] <- rutaElegida[pasajero] - 1
+		rutaElegida[pasajero] <- rutaElegida[pasajero] - 1 // se le resta uno para poder usar esta variable como subindice
 		
 		Si rutaElegida[pasajero] == 0 Entonces
 			si contadorAsientos[0] < 120 Entonces
-				contadorAsientos[0] <- contadorAsientos[0] + 1
-				asiento[0,pasajero] <- contadorAsientos[0]
+				contadorAsientos[0] <- contadorAsientos[0] + 1 // conteo del asiento
+				asiento[0,pasajero] <- contadorAsientos[0] // asignacion del asiento al pasajero
 			SiNo
 				avionLleno <- Verdadero
 				Mostrar "No se encuentran pasajes disponibles para este vuelo"
@@ -143,12 +152,12 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 			
 			Segun opcionEquipaje
 				caso 1:
-					equipajeBodega[pasajero] <- 1
+					equipajeBodega[pasajero] <- 1 // verdadero
 				caso 2:
-					equipajeBodega[pasajero] <- 0
+					equipajeBodega[pasajero] <- 0 // falso
 			FinSegun
 
-			costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero)
+			costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero) 
 		
 			Segun rutaElegida[pasajero]
 				caso 0:
@@ -236,7 +245,7 @@ SubProceso validarNombreApellido(nombreApellido, pasajero Por Referencia)
 		Escribir "Ingrese un nombre valido"
 		Leer nombreApellido[pasajero]
 	FinMientras
-	nombreApellido[pasajero] <- Minusculas(nombreApellido[pasajero])
+	nombreApellido[pasajero] <- Minusculas(nombreApellido[pasajero]) // convierte a minusculas para despues validar la busqueda de la opcion 3
 FinSubProceso 
 
 
@@ -319,16 +328,12 @@ SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega, cost
 FinSubProceso
 
 
-SubProceso inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam, contadorAsientos Por Referencia)
+SubProceso inicializoArreglos(rutasAereas, nombreApellido, tam, contadorAsientos Por Referencia)
 	definir i Como Entero
 	rutasAereas[0] <- "Buenos Aires - Bariloche"
 	rutasAereas[1] <- "Buenos Aires - Salta"
 	rutasAereas[2] <- "Rosario - Buenos Aires"
 	rutasAereas[3] <- "Mar Del Plata - Mendoza"
-	capacidadRutasAereas[0] <- 120
-	capacidadRutasAereas[1] <- 120
-	capacidadRutasAereas[2] <- 80
-	capacidadRutasAereas[3] <- 80
 	
 	Para i <- 0 Hasta tam-1 Hacer
 		nombreApellido[i] <- ""
