@@ -48,6 +48,7 @@ FinProceso
 
 SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos Por Referencia)
 	Definir pasajero Como Entero
+	Definir systemPause Como Caracter
 	Mientras nombreApellido[pasajero] <> "" y pasajero < tam Hacer
 		pasajero <- pasajero+1
 	FinMientras
@@ -62,6 +63,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		Mostrar "3. Rosario - Buenos Aires"
 		Mostrar "4. Mar Del Plata - Mendoza"
 		leer rutaElegida[pasajero]
+		validarRutaElegida(rutaElegida, pasajero)
 		rutaElegida[pasajero] <- rutaElegida[pasajero] - 1
 		
 		Si rutaElegida[pasajero] == 0 y contadorAsientos[0] < 120 Entonces
@@ -76,7 +78,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 			contadorAsientos[2] <- contadorAsientos[2] + 1
 			asiento[2,pasajero] <- contadorAsientos[2]
 		FinSi
-		Si rutaElegida[pasajero] == 3 y contadorAsientos < 80 Entonces
+		Si rutaElegida[pasajero] == 3 y contadorAsientos[3] < 80 Entonces
 			contadorAsientos[3] <- contadorAsientos[3] + 1
 			asiento[3,pasajero] <- contadorAsientos[3]
 		FinSi
@@ -84,18 +86,27 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		
 		Mostrar "Ingrese nombre y apellido: "
 		leer nombreApellido[pasajero]
+		validarNombreApellido(nombreApellido, pasajero)
+		
 		Mostrar "Ingrese DNI"
 		leer dni[pasajero]
+		validarDNI(dni, pasajero)
+		
 		Mostrar "Ingrese su telefono: "
 		leer telefono[pasajero]
+		validarTelefono(telefono, pasajero)
+		
 		Mostrar "Ingrese su numero de cliente: "
 		leer idCliente[pasajero]
+		validarIdCliente(idCliente, pasajero)
+		
 		Mostrar "¿Su equipaje va en la bodega? 1-SI 2-NO: "
 		leer opcionEquipaje
 		Mientras opcionEquipaje < 1 o opcionEquipaje > 2 Hacer
 			Mostrar "Opcion invalida. Ingrese nuevamente 1-SI 2-NO: "
 			Leer opcionEquipaje
 		FinMientras
+		
 		Segun opcionEquipaje
 			caso 1:
 				equipajeBodega[pasajero] <- 1
@@ -128,7 +139,9 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 	FinSegun
 	Mostrar "Asiento: ",asiento[rutaElegida[pasajero], pasajero]
 	Mostrar "Costo pasaje: $",costoTotal
-	
+	Mostrar ""
+	Mostrar "Presione enter para continuar"
+	leer systemPause
 	
 FinSubProceso
 
@@ -167,6 +180,47 @@ SubProceso OrdenSeleccion(arreglo, dim)
 		arreglo[i] <- arreglo[pos_menor]
 		arreglo[pos_menor]<-aux
 	FinPara
+FinSubProceso
+
+
+SubProceso validarRutaElegida(rutaElegida, pasajero Por Referencia)
+	Mientras rutaElegida[pasajero] < 1 o rutaElegida[pasajero] > 4
+		Escribir "Ruta invalida, ingrese nuevamente: "
+		Leer rutaElegida[pasajero]
+	FinMientras
+FinSubProceso
+
+
+SubProceso validarNombreApellido(nombreApellido, pasajero Por Referencia)
+	Mientras Longitud(nombreApellido[pasajero]) > 60 o Longitud(nombreApellido[pasajero]) < 7
+		Escribir "Ingrese un nombre valido"
+		Leer nombreApellido[pasajero]
+	FinMientras
+	nombreApellido[pasajero] <- Minusculas(nombreApellido[pasajero])
+FinSubProceso 
+
+
+SubProceso validarDNI(dni, pasajero Por Referencia)
+	Mientras dni[pasajero] < 1000000 o dni[pasajero] > 99999999
+		Escribir "Ingrese un dni valido: "
+		Leer dni[pasajero]
+	FinMientras
+FinSubProceso
+
+
+SubProceso validarTelefono(telefono, pasajero Por Referencia)
+	mientras telefono[pasajero] < 1000000000 o telefono[pasajero] > 99999999999
+		Escribir "ingrese un telefono valido: "
+		leer telefono[pasajero]
+	FinMientras
+FinSubProceso
+
+
+SubProceso validarIdCliente(idCliente, pasajero Por Referencia)
+	Mientras  idCliente[pasajero] < 1000 o idCliente[pasajero] > 9999
+		Escribir "Ingrese un numero de cliente valido (entre 1000 y 9999)"
+		Leer idCliente[pasajero]
+	FinMientras
 FinSubProceso
 
 
