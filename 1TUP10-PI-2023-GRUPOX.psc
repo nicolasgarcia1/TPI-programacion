@@ -14,7 +14,7 @@ Proceso SistemaDeVentaDePasajesAereos
 	Definir opcionMenu Como Caracter 
 	
 	// inicializacion de arreglos fuera de la funcion principal
-	inicializoArreglos(rutasAereas, capacidadRutasAereas, nombreApellido, tam, contadorAsientos) 
+	inicializoArreglos(rutasAereas, nombreApellido, tam, contadorAsientos) 
 	
 	mientras opcionMenu <> "salir" Hacer
 		Escribir "***BIENVENIDO***"
@@ -360,7 +360,7 @@ SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega, cost
 FinSubProceso
 
 
-SubProceso inicializoArreglos(rutasAereas,capacidadRutasAereas, nombreApellido, tam, contadorAsientos Por Referencia)
+SubProceso inicializoArreglos(rutasAereas, nombreApellido, tam, contadorAsientos Por Referencia)
 	definir i Como Entero
 	rutasAereas[0] <- "Buenos Aires - Bariloche"
 	rutasAereas[1] <- "Buenos Aires - Salta"
