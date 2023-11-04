@@ -35,7 +35,7 @@ Proceso SistemaDeVentaDePasajesAereos
 			caso '1':
 				ventaPasaje(rutaElegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos)
 			caso '2':
-				//buscarPasaje()
+				buscarPasaje(asiento, pasajero, tam)
 			caso '3':
 				//buscarPasajero()
 			caso '4':
@@ -161,7 +161,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		
 			Segun rutaElegida[pasajero]
 				caso 0:
-					mostrar "Ruta: Buenos Aires - Salta"
+					mostrar "Ruta: Buenos Aires - Bariloche"
 				caso 1:
 					mostrar "Ruta: Buenos Aires - Salta"
 				caso 2: 
@@ -195,9 +195,41 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 FinSubProceso
 
 
-//SubProceso buscarPasaje (Por Referencia)
+SubProceso buscarPasaje(asiento, pasajero, tam Por Referencia)
+	Definir opc,buscar,inferior,superior Como Entero
+	Definir encontrado Como Logico
+	Mostrar "Ingrese el vuelo elegido"
+	Mostrar "1. Buenos Aires - Bariloche"
+	Mostrar "2. Bueno Aires - Salta"
+	Mostrar "3. Rosario - Buenos Aires"
+	Mostrar "4. Mar Del Plata - Mendoza"
+	Repetir
+		leer opc
+		opc <- opc - 1
+	Hasta Que opc > 3 o opc < 1
+	Mostrar "Ingrese su numero de asiento"
+	leer buscar
+	inferior <- 0
+	superior <- tam - 1
+	encontrado <- falso
+	Repetir
+		centro <- trunc ((inferior + superior)/2)
+		si asiento[opc,pasajero] = buscar
+			Mostrar "El asiento fue encontrado en la posición ",centro + 1
+			encontrado <- Verdadero
+		SiNo
+			Si asiento[opc,pasajero] < buscar
+				inferior <- centro+1
+			SiNo
+				superior <- centro-1
+			FinSi
+		FinSi
+		Si inferior > superior
+			Mostrar "Asiento no encontrado"
+		FinSi
+	Mientras Que !encontrado y inferior <= superior
 	
-//FinSubProceso
+FinSubProceso
 
 
 //SubProceso buscarPasajero (Por Referencia)
@@ -328,7 +360,7 @@ SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega, cost
 FinSubProceso
 
 
-SubProceso inicializoArreglos(rutasAereas, nombreApellido, tam, contadorAsientos Por Referencia)
+SubProceso inicializoArreglos(rutasAereas,capacidadRutasAereas, nombreApellido, tam, contadorAsientos Por Referencia)
 	definir i Como Entero
 	rutasAereas[0] <- "Buenos Aires - Bariloche"
 	rutasAereas[1] <- "Buenos Aires - Salta"
