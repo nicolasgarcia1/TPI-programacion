@@ -47,15 +47,17 @@ Proceso SistemaDeVentaDePasajesAereos
 FinProceso
 
 SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos Por Referencia)
+	Definir avionLleno Como Logico
+	avionLleno <- Falso
 	Definir pasajero Como Entero
 	Definir systemPause Como Caracter
-	Mientras nombreApellido[pasajero] <> "" y pasajero < tam Hacer
+	Mientras nombreApellido[pasajero] <> "" y pasajero < tam-1 Hacer
 		pasajero <- pasajero+1
 	FinMientras
 	
 	Definir costoTotal Como Real
 
-	Si pasajero <= tam Entonces
+	Si pasajero < tam-1 Entonces
 		Definir opcionEquipaje Como Entero
 		Mostrar "Elija una opcion"
 		Mostrar "1. Buenos Aires - Bariloche"
@@ -66,82 +68,120 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		validarRutaElegida(rutaElegida, pasajero)
 		rutaElegida[pasajero] <- rutaElegida[pasajero] - 1
 		
-		Si rutaElegida[pasajero] == 0 y contadorAsientos[0] < 120 Entonces
-			contadorAsientos[0] <- contadorAsientos[0] + 1
-			asiento[0,pasajero] <- contadorAsientos[0]
+		Si rutaElegida[pasajero] == 0 Entonces
+			si contadorAsientos[0] < 120 Entonces
+				contadorAsientos[0] <- contadorAsientos[0] + 1
+				asiento[0,pasajero] <- contadorAsientos[0]
+			SiNo
+				avionLleno <- Verdadero
+				Mostrar "No se encuentran pasajes disponibles para este vuelo"
+				Mostrar ""
+				Mostrar "Presione enter para continuar"
+				Leer systemPause
+			FinSi
 		FinSi
-		Si rutaElegida[pasajero] == 1 y contadorAsientos[1] < 120 Entonces
-			contadorAsientos[0] <- contadorAsientos[1] + 1
-			asiento[1,pasajero] <- contadorAsientos[1]
+		Si rutaElegida[pasajero] == 1 Entonces
+			si contadorAsientos[1] < 120 Entonces
+				contadorAsientos[1] <- contadorAsientos[1] + 1
+				asiento[1,pasajero] <- contadorAsientos[1]
+			SiNo
+				avionLleno <- Verdadero
+				Mostrar "No se encuentran pasajes disponibles para este vuelo"
+				Mostrar ""
+				Mostrar "Presione enter para continuar"
+				Leer systemPause
+			FinSi
 		FinSi
-		Si rutaElegida[pasajero] == 2 y contadorAsientos[2] < 80 Entonces
-			contadorAsientos[2] <- contadorAsientos[2] + 1
-			asiento[2,pasajero] <- contadorAsientos[2]
+		Si rutaElegida[pasajero] == 2 Entonces
+			si contadorAsientos[2] < 80 Entonces
+				contadorAsientos[2] <- contadorAsientos[2] + 1
+				asiento[2,pasajero] <- contadorAsientos[2]
+			SiNo
+				avionLleno <- Verdadero
+				Mostrar "No se encuentran pasajes disponibles para este vuelo"
+				Mostrar ""
+				Mostrar "Presione enter para continuar"
+				Leer systemPause
+			FinSi
 		FinSi
-		Si rutaElegida[pasajero] == 3 y contadorAsientos[3] < 80 Entonces
-			contadorAsientos[3] <- contadorAsientos[3] + 1
-			asiento[3,pasajero] <- contadorAsientos[3]
+		Si rutaElegida[pasajero] == 3 Entonces
+			si contadorAsientos[3] < 80 Entonces
+				contadorAsientos[3] <- contadorAsientos[3] + 1
+				asiento[3,pasajero] <- contadorAsientos[3]
+			SiNo
+				avionLleno <- Verdadero
+				Mostrar "No se encuentran pasajes disponibles para este vuelo"
+				Mostrar ""
+				Mostrar "Presione enter para continuar"
+				Leer systemPause
+			FinSi
 		FinSi
 		
-		
-		Mostrar "Ingrese nombre y apellido: "
-		leer nombreApellido[pasajero]
-		validarNombreApellido(nombreApellido, pasajero)
-		
-		Mostrar "Ingrese DNI"
-		leer dni[pasajero]
-		validarDNI(dni, pasajero)
-		
-		Mostrar "Ingrese su telefono: "
-		leer telefono[pasajero]
-		validarTelefono(telefono, pasajero)
-		
-		Mostrar "Ingrese su numero de cliente: "
-		leer idCliente[pasajero]
-		validarIdCliente(idCliente, pasajero)
-		
-		Mostrar "¿Su equipaje va en la bodega? 1-SI 2-NO: "
-		leer opcionEquipaje
-		Mientras opcionEquipaje < 1 o opcionEquipaje > 2 Hacer
-			Mostrar "Opcion invalida. Ingrese nuevamente 1-SI 2-NO: "
-			Leer opcionEquipaje
-		FinMientras
-		
-		Segun opcionEquipaje
-			caso 1:
-				equipajeBodega[pasajero] <- 1
-			caso 2:
-				equipajeBodega[pasajero] <- 0
-		FinSegun
-	FinSi
+		Si avionLleno == Falso Entonces
+			Mostrar "Ingrese nombre y apellido: "
+			leer nombreApellido[pasajero]
+			validarNombreApellido(nombreApellido, pasajero)
+			
+			Mostrar "Ingrese DNI"
+			leer dni[pasajero]
+			validarDNI(dni, pasajero)
+			
+			Mostrar "Ingrese su telefono: "
+			leer telefono[pasajero]
+			validarTelefono(telefono, pasajero)
+			
+			Mostrar "Ingrese su numero de cliente: "
+			leer idCliente[pasajero]
+			validarIdCliente(idCliente, pasajero)
+			
+			Mostrar "¿Su equipaje va en la bodega? 1-SI 2-NO: "
+			leer opcionEquipaje
+			Mientras opcionEquipaje < 1 o opcionEquipaje > 2 Hacer
+				Mostrar "Opcion invalida. Ingrese nuevamente 1-SI 2-NO: "
+				Leer opcionEquipaje
+			FinMientras
+			
+			Segun opcionEquipaje
+				caso 1:
+					equipajeBodega[pasajero] <- 1
+				caso 2:
+					equipajeBodega[pasajero] <- 0
+			FinSegun
 
-	costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero)
-	
-	Segun rutaElegida[pasajero]
-		caso 0:
-			mostrar "Ruta: Buenos Aires - Salta"
-		caso 1:
-			mostrar "Ruta: Buenos Aires - Salta"
-		caso 2: 
-			mostrar "Ruta: Rosario - Buenos Aires"
-		caso 3:
-			mostrar "Ruta: Mar del Plata - Mendoza"
-	FinSegun
-	Mostrar "Nombre y Apellido: ",nombreApellido[pasajero]
-	Mostrar "DNI: ",dni[pasajero]
-	Mostrar "Telefono: ",telefono[pasajero]
-	Mostrar "Id Cliente: ",idCliente[pasajero]
-	Segun equipajeBodega[pasajero]
-		Caso 0:
-			Mostrar "Equipaje en bodega: SI"
-		caso 1:
-			Mostrar "Equipaje en bodega: NO"
-	FinSegun
-	Mostrar "Asiento: ",asiento[rutaElegida[pasajero], pasajero]
-	Mostrar "Costo pasaje: $",costoTotal
-	Mostrar ""
-	Mostrar "Presione enter para continuar"
-	leer systemPause
+			costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero)
+		
+			Segun rutaElegida[pasajero]
+				caso 0:
+					mostrar "Ruta: Buenos Aires - Salta"
+				caso 1:
+					mostrar "Ruta: Buenos Aires - Salta"
+				caso 2: 
+					mostrar "Ruta: Rosario - Buenos Aires"
+				caso 3:
+					mostrar "Ruta: Mar del Plata - Mendoza"
+			FinSegun
+			Mostrar "Nombre y Apellido: ",nombreApellido[pasajero]
+			Mostrar "DNI: ",dni[pasajero]
+			Mostrar "Telefono: ",telefono[pasajero]
+			Mostrar "Id Cliente: ",idCliente[pasajero]
+			Segun equipajeBodega[pasajero]
+				Caso 0:
+					Mostrar "Equipaje en bodega: SI"
+				caso 1:
+					Mostrar "Equipaje en bodega: NO"
+			FinSegun
+			Mostrar "Asiento: ",asiento[rutaElegida[pasajero], pasajero]
+			Mostrar "Costo pasaje: $",costoTotal
+			Mostrar ""
+			Mostrar "Presione enter para continuar"
+			leer systemPause
+		FinSi
+	SiNo
+		Mostrar "No hay pasajes disponibles para ningun vuelo"
+		Mostrar ""
+		Mostrar "Presione enter para continuar"
+		Leer systemPause
+	FinSi
 	
 FinSubProceso
 
