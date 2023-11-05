@@ -530,7 +530,7 @@ SubProceso inicializoArreglos(nombreApellido, tam, contadorAsientos, asiento, pa
 	contadorAsientos[3] <- 0
 	
 	Para j <- 0 Hasta 3 Hacer
-		para k <- 0 hasta tamVueloMayor-1 Hacer
+		para k <- 0 hasta tamVueloMayor Hacer
 			asiento[j, k] <- -1
 		FinPara
 	FinPara
