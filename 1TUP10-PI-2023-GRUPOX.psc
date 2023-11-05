@@ -1,21 +1,22 @@
 Proceso SistemaDeVentaDePasajesAereos
 	
 	// cantidad total de asientos disponibles sumando todos los vuelos
-	Definir tam Como Entero
-	tam <- 400 
+	Definir tam, tamVueloMenor, tamVueloMayor Como Entero
+	tam <- 6  // 400
+	tamVueloMenor <- 1  // 80
+	tamVueloMayor <- 2  // 120
 	
 	// definicion de arreglos
 	Definir pasajero Como Entero // subindice y contador del pasajero que inicia la venta de un pasaje
-	Definir dni, telefono, idCliente, asiento,rutaElegida Como Entero
+	Definir dni, telefono, idCliente, asiento,rutaElegida, equipajeBodega, contadorAsientos Como Entero
 	Definir rutasAereas , nombreApellido como cadena
-	Definir equipajeBodega, contadorAsientos  Como Entero
-	Dimension asiento[4,tam], rutasAereas[4], contadorAsientos[4]
+	Dimension asiento[4,tamVueloMayor+1], contadorAsientos[4]
 	Dimension nombreApellido[tam], dni[tam], telefono[tam], idCliente[tam], rutaElegida[tam], equipajeBodega[tam]
 	
 	Definir opcionMenu Como Caracter 
 	
 	// inicializacion de arreglos fuera de la funcion principal
-	inicializoArreglos(rutasAereas, nombreApellido, tam, contadorAsientos, asiento, pasajero) 
+	inicializoArreglos(nombreApellido, tam, contadorAsientos, asiento, pasajero, tamVueloMayor) 
 	
 	mientras opcionMenu <> "salir" Hacer
 		Escribir "***BIENVENIDO***"
@@ -34,11 +35,11 @@ Proceso SistemaDeVentaDePasajesAereos
 		
 		Segun opcionMenu
 			caso '1':
-				ventaPasaje(rutaElegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos, pasajero)
+				ventaPasaje(rutaElegida, nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos, pasajero, tamVueloMenor, tamVueloMayor)
 			caso '2':
-				buscarPasaje(asiento, dni, nombreApellido)
+				buscarPasaje(asiento, dni, nombreApellido, tamVueloMenor, tamVueloMayor)
 			caso '3':
-				//buscarPasajero()
+				buscarPasajero(nombreApellido, dni, rutaElegida, pasajero)
 			caso '4':
 				//mostrarListaPasajeros()
 			caso '5': 
@@ -53,7 +54,7 @@ Proceso SistemaDeVentaDePasajesAereos
 	Escribir "Gracias por elegirnos. "
 FinProceso
 
-SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos, pasajero Por Referencia)
+SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, equipajeBodega, asiento, tam, contadorAsientos, pasajero, tamVueloMenor, tamVueloMayor Por Referencia)
 	Definir avionLleno Como Logico // booleano para chequear si un vuelo está lleno
 	avionLleno <- Falso
 	
@@ -80,7 +81,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		rutaElegida[pasajero] <- validarRuta(ruta)
 		
 		Si rutaElegida[pasajero] == 0 Entonces
-			si contadorAsientos[0] < 120 Entonces
+			si contadorAsientos[0] < tamVueloMayor Entonces
 				contadorAsientos[0] <- contadorAsientos[0] + 1 // conteo del asiento
 				asiento[0,contadorAsientos[0]] <- pasajero // asignacion del asiento al pasajero
 			SiNo
@@ -92,7 +93,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 			FinSi
 		FinSi
 		Si rutaElegida[pasajero] == 1 Entonces
-			si contadorAsientos[1] < 120 Entonces
+			si contadorAsientos[1] < tamVueloMayor Entonces
 				contadorAsientos[1] <- contadorAsientos[1] + 1
 				asiento[1,contadorAsientos[1]] <- pasajero
 			SiNo
@@ -104,7 +105,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 			FinSi
 		FinSi
 		Si rutaElegida[pasajero] == 2 Entonces
-			si contadorAsientos[2] < 80 Entonces
+			si contadorAsientos[2] < tamVueloMenor Entonces
 				contadorAsientos[2] <- contadorAsientos[2] + 1
 				asiento[2,contadorAsientos[2]] <- pasajero
 			SiNo
@@ -116,7 +117,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 			FinSi
 		FinSi
 		Si rutaElegida[pasajero] == 3 Entonces
-			si contadorAsientos[3] < 80 Entonces
+			si contadorAsientos[3] < tamVueloMenor Entonces
 				contadorAsientos[3] <- contadorAsientos[3] + 1
 				asiento[3,contadorAsientos[3]] <- pasajero
 			SiNo
@@ -178,9 +179,9 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 			Mostrar "Id Cliente: ",idCliente[pasajero]
 			Segun equipajeBodega[pasajero]
 				Caso 0:
-					Mostrar "Equipaje en bodega: SI"
-				caso 1:
 					Mostrar "Equipaje en bodega: NO"
+				caso 1:
+					Mostrar "Equipaje en bodega: SI"
 			FinSegun
 			Mostrar "Asiento: ",contadorAsientos[rutaElegida[pasajero]]
 			Mostrar "Costo pasaje: $",costoTotal
@@ -198,32 +199,106 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 FinSubProceso
 
 
-SubProceso buscarPasaje(asiento, dni, nombreApellido Por Referencia)
+SubProceso buscarPasaje(asiento, dni, nombreApellido, tamVueloMenor, tamVueloMayor Por Referencia)
 	Definir systemPause Como Caracter
 	Definir pasajeroBuscado, ruta Como Entero
 	
-	Mostrar "1. Buenos Aires - Bariloche"
-	Mostrar "2. Bueno Aires - Salta"
-	Mostrar "3. Rosario - Buenos Aires"
-	Mostrar "4. Mar Del Plata - Mendoza"
-	Mostrar "Ingrese el vuelo elegido: "
-	leer ruta
-	ruta <- validarRuta(ruta)
-	
-	si asiento[ruta, 1] == -1 Entonces
+	Si nombreApellido[0] == "" Entonces
 		Mostrar ""
-		Mostrar "El vuelo no tiene asientos ocupados."
+		Mostrar "Todavia no hay pasajeros ingresados"
+		Mostrar ""
 		Mostrar "Presione enter para continuar."
 		Leer systemPause
 	SiNo
-		Mostrar "Ingrese su numero de asiento"
-		leer nroAsiento
+		Mostrar "1. Buenos Aires - Bariloche"
+		Mostrar "2. Bueno Aires - Salta"
+		Mostrar "3. Rosario - Buenos Aires"
+		Mostrar "4. Mar Del Plata - Mendoza"
+		Mostrar "Ingrese el vuelo elegido: "
+		leer ruta
+		ruta <- validarRuta(ruta)
 		
-		si asiento[ruta, nroAsiento] <> -1 Entonces
-			pasajeroBuscado <- asiento[ruta, nroAsiento]
+		si asiento[ruta, 1] == -1 Entonces
 			Mostrar ""
-			Mostrar "Nombre y apellido: ",nombreApellido[pasajeroBuscado]
-			Segun ruta
+			Mostrar "El vuelo no tiene asientos ocupados."
+			Mostrar "Presione enter para continuar."
+			Leer systemPause
+		SiNo
+			Mostrar "Ingrese su numero de asiento: "
+			leer nroAsiento
+			
+			si ruta == 0 o ruta == 1
+				Mientras nroAsiento < 1 o nroAsiento > tamVueloMayor
+					Mostrar "Asiento fuera del rango. Ingrese un asiento valido:"
+					leer nroAsiento
+				FinMientras
+			SiNo
+				Mientras nroAsiento < 1 o nroAsiento > tamVueloMenor
+					Mostrar "Asiento fuera del rango. Ingrese un asiento valido:"
+					leer nroAsiento
+				FinMientras
+			FinSi
+			
+			si asiento[ruta, nroAsiento] <> -1 Entonces
+				pasajeroBuscado <- asiento[ruta, nroAsiento]
+				Mostrar ""
+				Mostrar "Nombre y apellido: ",nombreApellido[pasajeroBuscado]
+				Segun ruta
+					caso 0:
+						Mostrar "Ruta: Buenos Aires - Bariloche"
+					Caso 1:
+						Mostrar "Ruta: Bueno Aires - Salta"
+					Caso 2:
+						Mostrar "Ruta: Rosario - Buenos Aires"
+					Caso 3:
+						Mostrar "Ruta: Mar Del Plata - Mendoza"
+				FinSegun
+				Mostrar "DNI: ",dni[pasajeroBuscado]
+				Mostrar ""
+				Mostrar "Presione enter para continuar."
+				Leer systemPause
+			SiNo
+				Mostrar ""
+				Mostrar "El asiento aún no está ocupado."
+				Mostrar "Presione enter para continuar."
+				Leer systemPause
+			FinSi
+		FinSi
+	FinSi
+	
+FinSubProceso
+
+
+SubProceso buscarPasajero(nombreApellido, dni, rutaElegida, pasajero Por Referencia)
+	Definir i Como Entero
+	Definir encontrado Como Logico
+	encontrado <- Falso
+	Definir nombre como cadena
+	Definir systemPause Como Caracter
+	
+	si nombreApellido[0] == "" Entonces
+		Mostrar ""
+		Mostrar "Todavia no hay pasajeros ingresados."
+		Mostrar ""
+		Mostrar "Presione enter para continuar."
+		Leer systemPause
+	SiNo
+		Mostrar "Ingrese su nombre y apellido"
+		Leer nombre
+		nombre <- validarNombreApellido(nombre)
+		
+		Mientras !encontrado y i <= pasajero
+			si nombreApellido[i] == nombre
+				encontrado <- verdadero
+			SiNo
+				i <- i+1
+			FinSi
+		FinMientras
+		
+		Si encontrado Entonces
+			Mostrar ""
+			Mostrar "Nombre y apellido: ",nombreApellido[i]
+			Segun rutaElegida[i]
 				caso 0:
 					Mostrar "Ruta: Buenos Aires - Bariloche"
 				Caso 1:
@@ -233,27 +308,17 @@ SubProceso buscarPasaje(asiento, dni, nombreApellido Por Referencia)
 				Caso 3:
 					Mostrar "Ruta: Mar Del Plata - Mendoza"
 			FinSegun
-			Mostrar "DNI: ",dni[pasajeroBuscado]
+			Mostrar "DNI: ",dni[i]
 			Mostrar ""
 			Mostrar "Presione enter para continuar."
 			Leer systemPause
 		SiNo
 			Mostrar ""
-			Mostrar "El asiento aún no está ocupado o no existe."
+			Mostrar "No se encontró el pasajero."
+			Mostrar ""
 			Mostrar "Presione enter para continuar."
-			Leer systemPause
 		FinSi
 	FinSi
-
-FinSubProceso
-
-
-SubProceso buscarPasajero(nombreApellido, dni, rutaElegida Por Referencia)
-	Definir nombre como cadena
-	Mostrar "Ingrese su nombre y apellido"
-	Leer nombre
-	nombre <- validarNombreApellido(nombre)
-	
 	
 FinSubProceso
 
@@ -406,12 +471,8 @@ SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega, cost
 FinSubProceso
 
 
-SubProceso inicializoArreglos(rutasAereas, nombreApellido, tam, contadorAsientos, asiento, pasajero Por Referencia)
+SubProceso inicializoArreglos(nombreApellido, tam, contadorAsientos, asiento, pasajero, tamVueloMayor Por Referencia)
 	definir i, j, k Como Enteros
-	rutasAereas[0] <- "Buenos Aires - Bariloche"
-	rutasAereas[1] <- "Buenos Aires - Salta"
-	rutasAereas[2] <- "Rosario - Buenos Aires"
-	rutasAereas[3] <- "Mar Del Plata - Mendoza"
 	
 	Para i <- 0 Hasta tam-1 Hacer
 		nombreApellido[i] <- ""
@@ -423,7 +484,7 @@ SubProceso inicializoArreglos(rutasAereas, nombreApellido, tam, contadorAsientos
 	contadorAsientos[3] <- 0
 	
 	Para j <- 0 Hasta 3 Hacer
-		para k <- 0 hasta tam-1 Hacer
+		para k <- 0 hasta tamVueloMayor-1 Hacer
 			asiento[j, k] <- -1
 		FinPara
 	FinPara
