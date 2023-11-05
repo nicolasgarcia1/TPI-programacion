@@ -39,7 +39,7 @@ Proceso SistemaDeVentaDePasajesAereos
 			caso '2':
 				buscarPasaje(asiento, dni, nombreApellido, tamVueloMenor, tamVueloMayor)
 			caso '3':
-				buscarPasajero(nombreApellido, dni, rutaElegida, pasajero)
+				buscarPasajero(nombreApellido, dni, rutaElegida, pasajero, tam)
 			caso '4':
 				//mostrarListaPasajeros()
 			caso '5': 
@@ -269,8 +269,9 @@ SubProceso buscarPasaje(asiento, dni, nombreApellido, tamVueloMenor, tamVueloMay
 FinSubProceso
 
 
-SubProceso buscarPasajero(nombreApellido, dni, rutaElegida, pasajero Por Referencia)
+SubProceso buscarPasajero(nombreApellido, dni, rutaElegida, pasajero, tam Por Referencia)
 	Definir i Como Entero
+	i <- 0
 	Definir encontrado Como Logico
 	encontrado <- Falso
 	Definir nombre como cadena
@@ -287,7 +288,7 @@ SubProceso buscarPasajero(nombreApellido, dni, rutaElegida, pasajero Por Referen
 		Leer nombre
 		nombre <- validarNombreApellido(nombre)
 		
-		Mientras !encontrado y i <= pasajero
+		Mientras !encontrado y i < tam
 			si nombreApellido[i] == nombre
 				encontrado <- verdadero
 			SiNo
@@ -317,6 +318,7 @@ SubProceso buscarPasajero(nombreApellido, dni, rutaElegida, pasajero Por Referen
 			Mostrar "No se encontró el pasajero."
 			Mostrar ""
 			Mostrar "Presione enter para continuar."
+			Leer systemPause
 		FinSi
 	FinSi
 	
