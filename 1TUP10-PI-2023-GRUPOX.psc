@@ -58,6 +58,8 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 	avionLleno <- Falso
 	
 	Definir systemPause Como Caracter
+	Definir nombre como cadena
+	Definir ruta Como Entero
 	
 	// busqueda del indice a usar, se le asignará el primer lugar vacio que haya del 0 hasta tam
 	Mientras nombreApellido[pasajero] <> "" y pasajero < tam Hacer 
@@ -74,8 +76,8 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		Mostrar "3. Rosario - Buenos Aires"
 		Mostrar "4. Mar Del Plata - Mendoza"
 		leer rutaElegida[pasajero]
-		validarRutaElegida(rutaElegida, pasajero)
-		rutaElegida[pasajero] <- rutaElegida[pasajero] - 1 // se le resta uno para poder usar esta variable como subindice
+		ruta <- rutaElegida[pasajero]
+		rutaElegida[pasajero] <- validarRuta(ruta)
 		
 		Si rutaElegida[pasajero] == 0 Entonces
 			si contadorAsientos[0] < 120 Entonces
@@ -129,7 +131,8 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		Si avionLleno == Falso Entonces
 			Mostrar "Ingrese nombre y apellido: "
 			leer nombreApellido[pasajero]
-			validarNombreApellido(nombreApellido, pasajero)
+			nombre <- nombreApellido[pasajero]
+			nombreApellido[pasajero] <- validarNombreApellido(nombre)
 			
 			Mostrar "Ingrese DNI"
 			leer dni[pasajero]
@@ -197,7 +200,7 @@ FinSubProceso
 
 SubProceso buscarPasaje(asiento, dni, nombreApellido Por Referencia)
 	Definir systemPause Como Caracter
-	Definir pasajeroBuscado Como Entero
+	Definir pasajeroBuscado, ruta Como Entero
 	
 	Mostrar "1. Buenos Aires - Bariloche"
 	Mostrar "2. Bueno Aires - Salta"
@@ -205,11 +208,7 @@ SubProceso buscarPasaje(asiento, dni, nombreApellido Por Referencia)
 	Mostrar "4. Mar Del Plata - Mendoza"
 	Mostrar "Ingrese el vuelo elegido: "
 	leer ruta
-	Mientras ruta < 1 o opcion > 4
-		Mostrar "Opcion invalida, ingrese nuevamente: "
-		leer ruta
-	FinMientras
-	ruta <- ruta - 1
+	ruta <- validarRuta(ruta)
 	
 	si asiento[ruta, 1] == -1 Entonces
 		Mostrar ""
@@ -249,17 +248,22 @@ SubProceso buscarPasaje(asiento, dni, nombreApellido Por Referencia)
 FinSubProceso
 
 
-//SubProceso buscarPasajero (Por Referencia)
+SubProceso buscarPasajero(nombreApellido, dni, rutaElegida Por Referencia)
+	Definir nombre como cadena
+	Mostrar "Ingrese su nombre y apellido"
+	Leer nombre
+	nombre <- validarNombreApellido(nombre)
+	
+	
+FinSubProceso
+
+
+//SubProceso mostrarListaPasajeros(Por Referencia)
 	
 //FinSubProceso
 
 
-//SubProceso mostrarListaPasajeros (Por Referencia)
-	
-//FinSubProceso
-
-
-//SubProceso listados (Por Referencia)
+//SubProceso listados(Por Referencia)
 	
 //FinSubProceso
 
@@ -281,28 +285,53 @@ SubProceso OrdenSeleccion(arreglo, dim)
 FinSubProceso
 
 
-SubProceso validarRutaElegida(rutaElegida, pasajero Por Referencia)
-	Mientras rutaElegida[pasajero] < 1 o rutaElegida[pasajero] > 4
+SubProceso ruta <- validarRuta(ruta Por Valor)
+	Mientras ruta < 1 o ruta > 4
 		Escribir "Ruta invalida, ingrese nuevamente: "
-		Leer rutaElegida[pasajero]
+		Leer ruta
 	FinMientras
+	ruta <- ruta - 1
 FinSubProceso
 
 
-SubProceso validarNombreApellido(nombreApellido, pasajero Por Referencia)
-	Mientras Longitud(nombreApellido[pasajero]) > 60 o Longitud(nombreApellido[pasajero]) < 7
+SubProceso nombre <- validarNombreApellido(nombre Por Valor)
+	Mientras Longitud(nombre) > 60 o Longitud(nombre) < 7
 		Escribir "Ingrese un nombre valido"
-		Leer nombreApellido[pasajero]
+		Leer nombre
 	FinMientras
-	nombreApellido[pasajero] <- Mayusculas(nombreApellido[pasajero]) // convierte a minusculas para despues validar la busqueda de la opcion 3
+	nombre <- Mayusculas(nombre) // convierte a mayusculas para despues validar la busqueda de la opcion 3
 FinSubProceso 
 
 
 SubProceso validarDNI(dni, pasajero Por Referencia)
+	Definir i Como Entero
+	
+	si pasajero > 1 Entonces
+		Para i <- 0 Hasta pasajero - 1 Hacer
+			si dni[i] == dni[pasajero]
+				Mostrar "DNI ya registrado. No puede sacar mas de un pasaje con el mismo DNI"
+				Mostrar "Ingrese un DNI valido: "
+				Leer dni[pasajero]
+				validarDNI(dni, pasajero)
+			FinSi
+		FinPara
+	SiNo
+		si pasajero == 1 Entonces
+			si dni[0] == dni[1]
+				Mostrar "DNI ya registrado. No puede sacar mas de un pasaje con el mismo DNI"
+				Mostrar "Ingrese un DNI valido: "
+				Leer dni[pasajero]
+				validarDNI(dni, pasajero)
+			FinSi
+		FinSi
+	FinSi
+	
 	Mientras dni[pasajero] < 1000000 o dni[pasajero] > 99999999
 		Escribir "Ingrese un dni valido: "
 		Leer dni[pasajero]
+		validarDNI(dni, pasajero)
 	FinMientras
+	
 FinSubProceso
 
 
