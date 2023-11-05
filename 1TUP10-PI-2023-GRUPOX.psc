@@ -401,17 +401,63 @@ FinSubProceso
 
 
 SubProceso validarTelefono(telefono, pasajero Por Referencia)
+	Definir i Como Entero
+	
+	si pasajero > 1 Entonces
+		Para i <- 0 Hasta pasajero - 1 Hacer
+			si telefono[i] == telefono[pasajero]
+				Mostrar "Telefono ya registrado. No puede sacar mas de un pasaje con el mismo telefono"
+				Mostrar "Ingrese un telefono valido: "
+				Leer telefono[pasajero]
+				validarTelefono(telefono, pasajero)
+			FinSi
+		FinPara
+	SiNo
+		si pasajero == 1 Entonces
+			si telefono[0] == telefono[1]
+				Mostrar "Telefono ya registrado. No puede sacar mas de un pasaje con el mismo telefono"
+				Mostrar "Ingrese un telefono valido: "
+				Leer telefono[pasajero]
+				validarTelefono(telefono, pasajero)
+			FinSi
+		FinSi
+	FinSi
+	
 	mientras telefono[pasajero] < 1000000000 o telefono[pasajero] > 99999999999
 		Escribir "ingrese un telefono valido: "
 		leer telefono[pasajero]
+		validarTelefono(telefono, pasajero)
 	FinMientras
 FinSubProceso
 
 
 SubProceso validarIdCliente(idCliente, pasajero Por Referencia)
+	Definir i Como Entero
+	
+	si pasajero > 1 Entonces
+		Para i <- 0 Hasta pasajero - 1 Hacer
+			si idCliente[i] == idCliente[pasajero]
+				Mostrar "Numero de cliente ya registrado. No puede sacar mas de un pasaje con el mismo numero de cliente"
+				Mostrar "Ingrese un numero de cliente valido: "
+				Leer idCliente[pasajero]
+				validarIdCliente(idCliente, pasajero)
+			FinSi
+		FinPara
+	SiNo
+		si pasajero == 1 Entonces
+			si idCliente[0] == idCliente[1]
+				Mostrar "Numero de cliente ya registrado. No puede sacar mas de un pasaje con el mismo numero de cliente"
+				Mostrar "Ingrese un numero de cliente valido: "
+				Leer idCliente[pasajero]
+				validarIdCliente(idCliente, pasajero)
+			FinSi
+		FinSi
+	FinSi
+	
 	Mientras  idCliente[pasajero] < 1000 o idCliente[pasajero] > 9999
 		Escribir "Ingrese un numero de cliente valido (entre 1000 y 9999)"
 		Leer idCliente[pasajero]
+		validarIdCliente(idCliente, pasajero)
 	FinMientras
 FinSubProceso
 
