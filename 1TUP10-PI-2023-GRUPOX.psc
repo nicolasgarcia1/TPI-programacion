@@ -58,7 +58,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 	Definir avionLleno Como Logico // booleano para chequear si un vuelo está lleno
 	avionLleno <- Falso
 	
-	Definir systemPause Como Caracter
+	Definir systemPause Como Caracter // simula systemPause de c 
 	Definir nombre como cadena
 	Definir ruta Como Entero
 	
@@ -81,11 +81,11 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		rutaElegida[pasajero] <- validarRuta(ruta)
 		
 		Si rutaElegida[pasajero] == 0 Entonces
-			si contadorAsientos[0] < tamVueloMayor Entonces
+			si contadorAsientos[0] < tamVueloMayor Entonces // chequea que el vuelo no este lleno
 				contadorAsientos[0] <- contadorAsientos[0] + 1 // conteo del asiento
 				asiento[0,contadorAsientos[0]] <- pasajero // asignacion del asiento al pasajero
 			SiNo
-				avionLleno <- Verdadero
+				avionLleno <- Verdadero // sirve para validar si el codigo pide el resto de datos o sale
 				Mostrar "No se encuentran pasajes disponibles para este vuelo"
 				Mostrar ""
 				Mostrar "Presione enter para continuar"
@@ -161,7 +161,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 					equipajeBodega[pasajero] <- 0 // falso
 			FinSegun
 
-			costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero) 
+			costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero, contadorAsientos) 
 		
 			Segun rutaElegida[pasajero]
 				caso 0:
@@ -464,52 +464,52 @@ SubProceso validarIdCliente(idCliente, pasajero Por Referencia)
 FinSubProceso
 
 
-SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega, costoTotal, pasajero Por Referencia)
+SubProceso costoTotal <- costopasaje (rutaElegida, asiento, equipajeBodega, costoTotal, pasajero, contadorAsientos Por Referencia)
 	Si rutaElegida[pasajero] == 0
-		Si asiento[0,pasajero] <= 20
+		Si contadorAsientos[0] <= 20
 			costoTotal <- 150000
-		FinSi
-		Si asiento[0,pasajero] > 20 y asiento[pasajero] <= 60
-			costoTotal <- 150000 * 1.10
-		FinSi
-		Si asiento[0,pasajero] > 60
-			costoTotal <- 180000
+		SiNo
+			Si contadorAsientos[0] > 20 y contadorAsientos[0] <= 60
+				costoTotal <- 150000 * 1.10
+			SiNo
+				costoTotal <- 180000
+			FinSi
 		FinSi
 	FinSi
 	
 	Si rutaElegida[pasajero] == 1
-		Si asiento[1,pasajero] <= 20
+		Si contadorAsientos[1] <= 20
 			costoTotal <- 120000
-		FinSi
-		Si asiento[1,pasajero] > 20 y asiento[pasajero] <= 60
-			costoTotal <- 120000 * 1.10
-		FinSi
-		Si asiento[1,pasajero] > 60
-			costoTotal <- 150000
+		SiNo
+			Si contadorAsientos[1] > 20 y contadorAsientos[1] <= 60
+				costoTotal <- 120000 * 1.10
+			SiNo
+				costoTotal <- 150000
+			FinSi
 		FinSi
 	FinSi
 	
 	Si rutaElegida[pasajero] == 2
-		Si asiento[2,pasajero] <= 10
+		Si contadorAsientos[2] <= 10
 			costoTotal <- 70000
-		FinSi
-		Si asiento[2,pasajero] > 10 y asiento[pasajero] <= 40
-			costoTotal <- 70000 * 1.15
-		FinSi
-		Si asiento[2,pasajero] > 40
-			costoTotal <- 95000
+		SiNo
+			si contadorAsientos[2] > 10 y contadorAsientos[2] <= 40
+				costoTotal <- 70000 * 1.15
+			sino
+				costoTotal <- 95000
+			FinSi
 		FinSi
 	FinSi
 	
 	Si rutaElegida[pasajero] == 3
-		Si asiento[3,pasajero] <= 10
+		Si contadorAsientos[3] <= 10
 			costoTotal <- 95000
-		FinSi
-		Si asiento[3,pasajero] > 10 y asiento[pasajero] <= 40
-			costoTotal <- 95000 * 1.15
-		FinSi
-		Si asiento[3,pasajero] > 40
-			costoTotal <- 125000
+		SiNo
+			si contadorAsientos[3]> 10 y contadorAsientos[3] <= 40
+				costoTotal <- 95000 * 1.15
+			SiNo
+				costoTotal <- 125000
+			FinSi
 		FinSi
 	FinSi
 	
