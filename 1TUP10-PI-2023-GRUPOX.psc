@@ -2,9 +2,9 @@ Proceso SistemaDeVentaDePasajesAereos
 	
 	// cantidad total de asientos disponibles sumando todos los vuelos
 	Definir tam, tamVueloMenor, tamVueloMayor Como Entero
-	tam <- 6  // 400
+	tam <- 10  // 400
 	tamVueloMenor <- 1  // 80
-	tamVueloMayor <- 2  // 120
+	tamVueloMayor <- 4  // 120
 	
 	// definicion de arreglos
 	Definir pasajero Como Entero // subindice y contador del pasajero que inicia la venta de un pasaje
@@ -19,7 +19,7 @@ Proceso SistemaDeVentaDePasajesAereos
 	inicializoArreglos(nombreApellido, tam, contadorAsientos, asiento, pasajero, tamVueloMayor) 
 	
 	mientras opcionMenu <> "salir" Hacer
-		Escribir "***BIENVENIDO***"
+		Escribir "**BIENVENIDO**"
 		Escribir ""
 		Escribir "Gracias por viajar con aerolineas messi"
 		Escribir "1. Venta pasaje"
@@ -27,7 +27,7 @@ Proceso SistemaDeVentaDePasajesAereos
 		Escribir "3. Buscar pasajero"
 		Escribir "4. Ordenar y mostrar lista pasajeros"
 		Escribir "5. Listado/s"
-		Escribir "Para terminar la ejecucion, ingrese *salir*"
+		Escribir "Para terminar la ejecucion, ingrese salir"
 		Escribir ""
 		Escribir "Seleccione una opcion: "
 		Leer opcionMenu
@@ -41,7 +41,7 @@ Proceso SistemaDeVentaDePasajesAereos
 			caso '3':
 				buscarPasajero(nombreApellido, dni, rutaElegida, pasajero, tam)
 			caso '4':
-				//mostrarListaPasajeros()
+				mostrarListaPasajeros(nombreApellido, pasajero, contadorAsientos)
 			caso '5': 
 				//listados()
 			caso 'salir':
@@ -68,7 +68,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 	FinMientras
 	
 	Definir costoTotal Como Real
-
+	
 	Si pasajero < tam Entonces  // chequea que no esten todos los vuelos llenos
 		Definir opcionEquipaje Como Entero
 		Mostrar "Elija una opcion"
@@ -160,9 +160,9 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 				caso 2:
 					equipajeBodega[pasajero] <- 0 // falso
 			FinSegun
-
+			
 			costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero, contadorAsientos) 
-		
+			
 			Segun rutaElegida[pasajero]
 				caso 0:
 					mostrar "Ruta: Buenos Aires - Bariloche"
@@ -325,31 +325,49 @@ SubProceso buscarPasajero(nombreApellido, dni, rutaElegida, pasajero, tam Por Re
 FinSubProceso
 
 
-//SubProceso mostrarListaPasajeros(Por Referencia)
+SubProceso mostrarListaPasajeros(nombreApellido, pasajero, contadorAsientos Por Referencia)
+	Definir ruta, opc, i, subIndice Como Entero
 	
-//FinSubProceso
+	Mostrar "1. Buenos Aires - Bariloche"
+	Mostrar "2. Bueno Aires - Salta"
+	Mostrar "3. Rosario - Buenos Aires"
+	Mostrar "4. Mar Del Plata - Mendoza"
+	Mostrar "Ingrese la ruta a mostrar: "
+	leer ruta
+	ruta <- validarRuta(ruta)
+	
+	Mostrar "1. Listado ascendente"
+	Mostrar "2. Listado descendente"
+	Mostrar "Ingrese una opcion: "
+	Leer opc
+	Mientras opc < 1 o opc > 2 Hacer
+		Mostrar "Ingrese una opcion valida: "
+		Leer opc
+	FinMientras
+	
+	Mostrar contadorAsientos[ruta]
+	
+	Si opc == 1 Entonces
+		Para i <- 0 Hasta contadorAsientos[ruta] - 1
+			Mostrar "----------------------------------------"
+			Mostrar "ASIENTO ",i+1
+			Mostrar nombreApellido[i]
+			Mostrar "----------------------------------------"
+		FinPara
+	SiNo
+		Para j <- contadorAsientos[ruta] - 1 Hasta 0 Con Paso -1
+			Mostrar "----------------------------------------"
+			Mostrar "ASIENTO ",j+1
+			Mostrar nombreApellido[j]
+			Mostrar "----------------------------------------"
+		FinPara
+	FinSi
+FinSubProceso
 
 
 //SubProceso listados(Por Referencia)
-	
+
 //FinSubProceso
-
-
-SubProceso OrdenSeleccion(arreglo, dim)
-	Definir i, j, pos_menor, aux Como Entero
-	para i <- 0 hasta dim - 2 Hacer
-		pos_menor <- i
-		para j<- i + 1 hasta dim - 1 Hacer
-			Si arreglo[j]<arreglo[pos_menor] Entonces
-				pos_menor <- j
-			FinSi
-			cant_comparaciones <- cant_comparaciones + 1
-		FinPara
-		aux <- arreglo[i]
-		arreglo[i] <- arreglo[pos_menor]
-		arreglo[pos_menor]<-aux
-	FinPara
-FinSubProceso
 
 
 SubProceso ruta <- validarRuta(ruta Por Valor)
@@ -539,5 +557,3 @@ SubProceso inicializoArreglos(nombreApellido, tam, contadorAsientos, asiento, pa
 	
 	pasajero <- 0
 FinSubProceso
-
-
