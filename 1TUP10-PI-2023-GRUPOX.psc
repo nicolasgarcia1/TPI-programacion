@@ -2,9 +2,9 @@ Proceso SistemaDeVentaDePasajesAereos
 	
 	// cantidad total de asientos disponibles sumando todos los vuelos
 	Definir tam, tamVueloMenor, tamVueloMayor Como Entero
-	tam <- 10  // 400
-	tamVueloMenor <- 1  // 80
-	tamVueloMayor <- 4  // 120
+	tam <- 400
+	tamVueloMenor <- 80
+	tamVueloMayor <- 120
 	
 	// definicion de arreglos
 	Definir pasajero Como Entero // subindice y contador del pasajero que inicia la venta de un pasaje
@@ -43,7 +43,7 @@ Proceso SistemaDeVentaDePasajesAereos
 			caso '4':
 				mostrarListaPasajeros(nombreApellido, pasajero, contadorAsientos)
 			caso '5': 
-				//listados()
+				listados(contadorAsientos)
 			caso 'salir':
 				
 			De Otro Modo:
@@ -345,8 +345,6 @@ SubProceso mostrarListaPasajeros(nombreApellido, pasajero, contadorAsientos Por 
 		Leer opc
 	FinMientras
 	
-	Mostrar contadorAsientos[ruta]
-	
 	Si opc == 1 Entonces
 		Para i <- 0 Hasta contadorAsientos[ruta] - 1
 			Mostrar "----------------------------------------"
@@ -365,9 +363,46 @@ SubProceso mostrarListaPasajeros(nombreApellido, pasajero, contadorAsientos Por 
 FinSubProceso
 
 
-//SubProceso listados(Por Referencia)
+SubProceso listados(contadorAsientos Por Referencia)
+	Definir opc, ruta, sumapasajes como entero
+	Definir porcentaje1, porcentaj2, porcentaje3, porcentaje4 Como Real
+	Definir systemPause Como Caracter
+	
+	Mostrar "1. Cantidad de pasajes vendido por ruta aérea"
+	Mostrar "2. Porcentaje de ventas por ruta aérea"
+	Repetir
+		leer opc
+	Hasta Que opc = 1 o opc = 2
+	Si opc == 1
+		
+		Escribir "1. Buenos Aires - Bariloche"
+		Escribir "2. Bueno Aires - Salta"
+		Escribir "3. Rosario - Buenos Aires"
+		Escribir "4. Mar Del Plata - Mendoza"
+		Escribir "Ingrese la ruta a mostrar: "
+		leer ruta
+		ruta <- validarRuta(ruta)
+		Escribir "La cantidad de pasajes vendidos de esta ruta aérea es ",contadorAsientos[ruta] 
+		Mostrar "Presione enter para continuar"
+		leer systemPause 
+	SiNo
+		
+		sumapasajes <- (contadorAsientos[0] + contadorAsientos[1] + contadorAsientos[2] + contadorAsientos[3]) 
+		porcentaje1 <- (contadorAsientos[0] / sumapasajes) * 100
+		porcentaje2 <- (contadorAsientos[1] / sumapasajes) * 100
+		porcentaje3 <- (contadorAsientos[2] / sumapasajes) * 100
+		porcentaje4 <- (contadorAsientos[3] / sumapasajes) * 100
+		Mostrar "El porcentaje de ventas de la ruta Buenos Aires - Bariloche es del ",porcentaje1 "%"
+		Mostrar "El porcentaje de ventas de la ruta Buenos Aires - Salta es del ",porcentaje2 "%"
+		Mostrar "El porcentaje de ventas de la ruta Rosario - Buenos Aires es del ",porcentaje3 "%"
+		Mostrar "El porcentaje de ventas de la ruta Mar Del Plata - Mendoza es del ",porcentaje4 "%"
+		Mostrar "Presione enter para continuar"
+		leer systemPause 
+	FinSi
+	
 
-//FinSubProceso
+
+FinSubProceso
 
 
 SubProceso ruta <- validarRuta(ruta Por Valor)
