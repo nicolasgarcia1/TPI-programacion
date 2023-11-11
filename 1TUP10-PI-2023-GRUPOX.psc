@@ -1,15 +1,14 @@
 Proceso SistemaDeVentaDePasajesAereos
 	
-	// cantidad total de asientos disponibles sumando todos los vuelos
 	Definir tam, tamVueloMenor, tamVueloMayor Como Entero
-	tam <- 400
+	tam <- 400 // cantidad total de asientos disponibles sumando todos los vuelos
 	tamVueloMenor <- 80
 	tamVueloMayor <- 120
 	
 	// definicion de arreglos
 	Definir pasajero Como Entero // subindice y contador del pasajero que inicia la venta de un pasaje
-	Definir dni, telefono, idCliente, asiento,rutaElegida, equipajeBodega, contadorAsientos Como Entero
-	Definir rutasAereas , nombreApellido como cadena
+	Definir dni, telefono, idCliente, asiento, rutaElegida, equipajeBodega, contadorAsientos Como Entero
+	Definir nombreApellido como cadena
 	Dimension asiento[4,tamVueloMayor+1], contadorAsientos[4]
 	Dimension nombreApellido[tam], dni[tam], telefono[tam], idCliente[tam], rutaElegida[tam], equipajeBodega[tam]
 	
@@ -19,7 +18,8 @@ Proceso SistemaDeVentaDePasajesAereos
 	inicializoArreglos(nombreApellido, tam, contadorAsientos, asiento, pasajero, tamVueloMayor) 
 	
 	mientras opcionMenu <> "salir" Hacer
-		Escribir "**BIENVENIDO**"
+		Limpiar Pantalla
+		Escribir "*****BIENVENIDO*****"
 		Escribir ""
 		Escribir "Gracias por viajar con aerolineas messi"
 		Escribir "1. Venta pasaje"
@@ -70,14 +70,14 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 	Definir costoTotal Como Real
 	
 	Si pasajero < tam Entonces  // chequea que no esten todos los vuelos llenos
+		Limpiar Pantalla
 		Definir opcionEquipaje Como Entero
 		Mostrar "Elija una opcion"
 		Mostrar "1. Buenos Aires - Bariloche"
 		Mostrar "2. Bueno Aires - Salta"
 		Mostrar "3. Rosario - Buenos Aires"
 		Mostrar "4. Mar Del Plata - Mendoza"
-		leer rutaElegida[pasajero]
-		ruta <- rutaElegida[pasajero]
+		leer ruta
 		rutaElegida[pasajero] <- validarRuta(ruta)
 		
 		Si rutaElegida[pasajero] == 0 Entonces
@@ -130,23 +130,27 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 		FinSi
 		
 		Si avionLleno == Falso Entonces
+			Limpiar Pantalla
 			Mostrar "Ingrese nombre y apellido: "
-			leer nombreApellido[pasajero]
-			nombre <- nombreApellido[pasajero]
+			leer nombre
 			nombreApellido[pasajero] <- validarNombreApellido(nombre)
 			
+			Limpiar Pantalla
 			Mostrar "Ingrese DNI"
 			leer dni[pasajero]
 			validarDNI(dni, pasajero)
 			
+			Limpiar Pantalla
 			Mostrar "Ingrese su telefono: "
 			leer telefono[pasajero]
 			validarTelefono(telefono, pasajero)
 			
+			Limpiar Pantalla
 			Mostrar "Ingrese su numero de cliente: "
 			leer idCliente[pasajero]
 			validarIdCliente(idCliente, pasajero)
 			
+			Limpiar Pantalla
 			Mostrar "¿Su equipaje va en la bodega? 1-SI 2-NO: "
 			leer opcionEquipaje
 			Mientras opcionEquipaje < 1 o opcionEquipaje > 2 Hacer
@@ -163,6 +167,7 @@ SubProceso ventaPasaje (rutaElegida , nombreApellido, dni, telefono, idCliente, 
 			
 			costoTotal <- costopasaje(rutaElegida, asiento, equipajeBodega , costoTotal, pasajero, contadorAsientos) 
 			
+			Limpiar Pantalla
 			Segun rutaElegida[pasajero]
 				caso 0:
 					mostrar "Ruta: Buenos Aires - Bariloche"
@@ -203,6 +208,7 @@ SubProceso buscarPasaje(asiento, dni, nombreApellido, tamVueloMenor, tamVueloMay
 	Definir systemPause Como Caracter
 	Definir pasajeroBuscado, ruta Como Entero
 	
+	Limpiar Pantalla
 	Si nombreApellido[0] == "" Entonces
 		Mostrar ""
 		Mostrar "Todavia no hay pasajeros ingresados"
@@ -218,6 +224,7 @@ SubProceso buscarPasaje(asiento, dni, nombreApellido, tamVueloMenor, tamVueloMay
 		leer ruta
 		ruta <- validarRuta(ruta)
 		
+		Limpiar Pantalla
 		si asiento[ruta, 1] == -1 Entonces
 			Mostrar ""
 			Mostrar "El vuelo no tiene asientos ocupados."
@@ -239,6 +246,7 @@ SubProceso buscarPasaje(asiento, dni, nombreApellido, tamVueloMenor, tamVueloMay
 				FinMientras
 			FinSi
 			
+			Limpiar Pantalla
 			si asiento[ruta, nroAsiento] <> -1 Entonces
 				pasajeroBuscado <- asiento[ruta, nroAsiento]
 				Mostrar ""
@@ -277,6 +285,7 @@ SubProceso buscarPasajero(nombreApellido, dni, rutaElegida, pasajero, tam Por Re
 	Definir nombre como cadena
 	Definir systemPause Como Caracter
 	
+	Limpiar Pantalla
 	si nombreApellido[0] == "" Entonces
 		Mostrar ""
 		Mostrar "Todavia no hay pasajeros ingresados."
@@ -296,6 +305,7 @@ SubProceso buscarPasajero(nombreApellido, dni, rutaElegida, pasajero, tam Por Re
 			FinSi
 		FinMientras
 		
+		Limpiar Pantalla
 		Si encontrado Entonces
 			Mostrar ""
 			Mostrar "Nombre y apellido: ",nombreApellido[i]
@@ -327,7 +337,9 @@ FinSubProceso
 
 SubProceso mostrarListaPasajeros(nombreApellido, pasajero, contadorAsientos Por Referencia)
 	Definir ruta, opc, i, subIndice Como Entero
+	Definir systemPause Como Caracter
 	
+	Limpiar Pantalla
 	Mostrar "1. Buenos Aires - Bariloche"
 	Mostrar "2. Bueno Aires - Salta"
 	Mostrar "3. Rosario - Buenos Aires"
@@ -336,6 +348,7 @@ SubProceso mostrarListaPasajeros(nombreApellido, pasajero, contadorAsientos Por 
 	leer ruta
 	ruta <- validarRuta(ruta)
 	
+	Limpiar Pantalla
 	Mostrar "1. Listado ascendente"
 	Mostrar "2. Listado descendente"
 	Mostrar "Ingrese una opcion: "
@@ -345,6 +358,7 @@ SubProceso mostrarListaPasajeros(nombreApellido, pasajero, contadorAsientos Por 
 		Leer opc
 	FinMientras
 	
+	Limpiar Pantalla
 	Si opc == 1 Entonces
 		Para i <- 0 Hasta contadorAsientos[ruta] - 1
 			Mostrar "----------------------------------------"
@@ -360,6 +374,8 @@ SubProceso mostrarListaPasajeros(nombreApellido, pasajero, contadorAsientos Por 
 			Mostrar "----------------------------------------"
 		FinPara
 	FinSi
+	Mostrar "Presione enter para continuar."
+	Leer systemPause
 FinSubProceso
 
 
@@ -368,13 +384,15 @@ SubProceso listados(contadorAsientos Por Referencia)
 	Definir porcentaje1, porcentaj2, porcentaje3, porcentaje4 Como Real
 	Definir systemPause Como Caracter
 	
+	Limpiar Pantalla
 	Mostrar "1. Cantidad de pasajes vendido por ruta aérea"
 	Mostrar "2. Porcentaje de ventas por ruta aérea"
 	Repetir
 		leer opc
 	Hasta Que opc = 1 o opc = 2
+	
+	Limpiar Pantalla
 	Si opc == 1
-		
 		Escribir "1. Buenos Aires - Bariloche"
 		Escribir "2. Bueno Aires - Salta"
 		Escribir "3. Rosario - Buenos Aires"
@@ -386,7 +404,6 @@ SubProceso listados(contadorAsientos Por Referencia)
 		Mostrar "Presione enter para continuar"
 		leer systemPause 
 	SiNo
-		
 		sumapasajes <- (contadorAsientos[0] + contadorAsientos[1] + contadorAsientos[2] + contadorAsientos[3]) 
 		porcentaje1 <- (contadorAsientos[0] / sumapasajes) * 100
 		porcentaje2 <- (contadorAsientos[1] / sumapasajes) * 100
